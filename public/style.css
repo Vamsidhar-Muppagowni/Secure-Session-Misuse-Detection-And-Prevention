@@ -1,0 +1,190 @@
+:root {
+    --bg-color: #ffffff;
+    --card-bg: #ffffff;
+    --border-color: #d0d7de;
+    --accent-color: #0969da;
+    --success-color: #1a7f37;
+    --danger-color: #cf222e;
+    --text-primary: #24292f;
+    --text-secondary: #57606a;
+    --glass-blur: none;
+    /* Removed blur for plain look, or keep if user wanted glass on white */
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --shadow-color: rgba(140, 149, 159, 0.2);
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-family);
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Removed gradients for "plane white" request */
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Card Styling */
+.glass-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 8px 24px var(--shadow-color);
+    border-radius: 6px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+h1,
+h2,
+h3 {
+    margin-top: 0;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+input,
+select {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 10px;
+    border-radius: 6px;
+    width: 100%;
+    margin-bottom: 1rem;
+    box-sizing: border-box;
+}
+
+button {
+    background: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+    width: 100%;
+}
+
+button:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+button.secondary {
+    background: #f3f4f6;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+button.danger {
+    background: var(--danger-color);
+}
+
+/* Views */
+.hidden {
+    display: none;
+}
+
+/* Auth Form */
+#auth-view {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.auth-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.auth-tabs button {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+}
+
+.auth-tabs button.active {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: #fff;
+}
+
+/* Dashboard */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+.file-list {
+    list-style: none;
+    padding: 0;
+}
+
+.file-item {
+    background: #f6f8fa;
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.badge {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.badge-student {
+    background: #0969da;
+    color: #fff;
+}
+
+.badge-faculty {
+    background: #bf8700;
+    color: #fff;
+}
+
+.badge-admin {
+    background: #cf222e;
+    color: #fff;
+}
+
+.status-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--success-color);
+    margin-right: 5px;
+    box-shadow: 0 0 5px var(--success-color);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.glass-card {
+    animation: fadeIn 0.4s ease-out;
+}

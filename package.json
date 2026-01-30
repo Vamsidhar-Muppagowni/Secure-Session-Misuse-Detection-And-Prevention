@@ -1,0 +1,20 @@
+{
+    "name": "secure-session-system",
+    "version": "1.0.0",
+    "description": "Lab Eval 1 - Secure Session Misuse Detection",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "dev": "node server.js"
+    },
+    "dependencies": {
+        "body-parser": "^1.20.2",
+        "dotenv": "^17.2.3",
+        "express": "^4.18.2",
+        "mongoose": "^9.1.5",
+        "multer": "^1.4.5-lts.1",
+        "nodemailer": "^7.0.13",
+        "qrcode": "^1.5.4",
+        "speakeasy": "^2.0.0"
+    }
+}

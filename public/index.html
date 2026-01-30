@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Session | Misuse Detection System</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Using built-in fonts to avoid external dependencies for speed, but styled well -->
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Auth View -->
+        <div id="auth-view" class="glass-card">
+            <h2 style="text-align: center;">Secure Vault Access</h2>
+            <div class="auth-tabs">
+                <button id="tab-login" class="active" onclick="switchAuthTab('login')">Login</button>
+                <button id="tab-register" onclick="switchAuthTab('register')">Register</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form">
+                <input type="text" id="login-username" placeholder="Username" required>
+                <input type="password" id="login-password" placeholder="Password" required>
+                <button type="submit">Unlock Vault</button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="register-form" class="hidden">
+                <input type="text" id="reg-username" placeholder="Choose Username" required>
+                <div style="display: flex; gap: 5px;">
+                    <input type="email" id="reg-email" placeholder="Email Address" required style="flex: 1;">
+                    <button type="button" onclick="sendEmailOTP()" class="secondary" style="width: auto;">Send
+                        OTP</button>
+                </div>
+                <input type="text" id="reg-email-otp" placeholder="Enter OTP sent to Email" required>
+                <input type="password" id="reg-password" placeholder="Password (Min 8 chars)" required>
+                <select id="reg-role">
+                    <option value="student">Student</option>
+                    <option value="faculty">Faculty</option>
+                    <option value="admin">Admin</option>
+                </select>
+                <button type="submit">Create Identity</button>
+            </form>
+
+            <!-- 2FA Setup View -->
+            <div id="2fa-setup" class="hidden" style="text-align: center;">
+                <h3>Set Up 2FA</h3>
+                <p>Scan this QR code with Google Authenticator:</p>
+                <img id="qr-code-img" src="" alt="QR Code"
+                    style="background: white; padding: 10px; border-radius: 8px;">
+                <p style="font-size: 0.8em; color: var(--text-secondary); margin-top: 10px;">Warning: You cannot log in
+                    without this!</p>
+                <button onclick="finishRegistration()">I Have Scanned It - Go to Login</button>
+            </div>
+            <p id="auth-message" style="color: var(--danger-color); text-align: center; margin-top: 10px;"></p>
+        </div>
+
+        <!-- Dashboard View (Protected) -->
+        <div id="dashboard-view" class="hidden">
+            <header class="glass-card" style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1>Secure Vault</h1>
+                    <div style="display: flex; align-items: center;">
+                        <span class="status-indicator"></span>
+                        <span style="color: var(--text-secondary); font-size: 0.9em;">Session Active | Misuse Monitor
+                            ON</span>
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <h3 id="user-display">User: ...</h3>
+                    <button onclick="logout()" class="danger" style="width: auto;">Terminate Session</button>
+                </div>
+            </header>
+
+            <div class="dashboard-grid">
+                <!-- File System -->
+                <div class="glass-card">
+                    <h3>Encrypted Storage</h3>
+
+                    <!-- Upload -->
+                    <div
+                        style="margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px;">
+                        <h4>Upload Secure File (AES-256)</h4>
+                        <form id="upload-form">
+                            <input type="file" id="file-input" required>
+                            <input type="text" id="file-name" placeholder="Custom Filename (Optional)">
+                            <button type="submit">Encrypt & Upload</button>
+                        </form>
+                    </div>
+
+                    <!-- File List -->
+                    <h4>Files Access (ACL Enforced)</h4>
+                    <ul id="file-list" class="file-list">
+                        <!-- Populated by JS -->
+                        <li class="file-item" style="justify-content: center; color: var(--text-secondary);">Loading
+                            files...</li>
+                    </ul>
+                </div>
+
+                <!-- Security Tools Side Panel -->
+                <div class="glass-card">
+                    <h3>Security Tools</h3>
+
+                    <div style="margin-bottom: 20px;">
+                        <h4>Documentation</h4>
+                        <a href="project_report.md" download="Secure_Session_Project_Report.md"
+                            style="text-decoration: none;">
+                            <button class="secondary" style="width: 100%;">Download Project Report</button>
+                        </a>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: var(--danger-color);">Misuse Test</h4>
+                        <button onclick="simulateAttack()" class="danger" style="width: 100%;">Simulate Session
+                            Hijack</button>
+                        <small style="color: grey">Modifies execution env to test monitor.</small>
+                    </div>
+
+
+
+                    <div>
+                        <h4>Encoding Tool (Base64)</h4>
+                        <input type="text" id="encode-input" placeholder="Text to encode...">
+                        <button onclick="encodeText()" class="secondary">Encode</button>
+                        <p id="encode-output"
+                            style="word-break: break-all; color: var(--accent-color); margin-top: 5px;"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Access Requests Panel (Faculty Only) -->
+            <div id="access-requests-panel" class="glass-card" style="display: none; grid-column: 1 / -1;">
+                <h3>Pending Access Requests</h3>
+                <ul id="request-list" style="list-style: none; padding: 0;"></ul>
+            </div>
+
+            <!-- NEW: Security Monitor Panel -->
+            <div class="glass-card" style="grid-column: 1 / -1;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="color: var(--danger-color); margin: 0;">🛡️ Security Monitor (Live Logs)</h3>
+                    <button onclick="fetchSecurityLogs()" class="secondary"
+                        style="width: auto; padding: 5px 15px;">Refresh Logs</button>
+                </div>
+                <p style="color: var(--text-secondary); margin-top: 5px; margin-bottom: 15px;">
+                    This panel monitors for suspicious activity (like session hijacking) in real-time.
+                </p>
+
+                <ul id="security-log-list" style="list-style: none; padding: 0; max-height: 200px; overflow-y: auto;">
+                    <li style="text-align: center; color: var(--text-secondary); padding: 10px;">System Secure. No
+                        threats detected.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- MFA Modal (Overlay) -->
+    <div id="mfa-modal" class="glass-card"
+        style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300px; z-index: 1000; display: none; border: 2px solid var(--accent-color);">
+        <h3 style="text-align: center;">MFA Verification</h3>
+        <p style="text-align: center; color: var(--text-secondary);">Enter the 6-digit code from your Authenticator App
+        </p>
+        <input type="text" id="mfa-code" placeholder="000 000" style="text-align: center; letter-spacing: 4px;">
+        <button onclick="verifyMFA()">Verify Identity</button>
+    </div>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

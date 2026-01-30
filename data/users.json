@@ -1,0 +1,20 @@
+[
+  {
+    "id": "ac9bfdd7-1dff-42b2-a28e-7532ce82bb0e",
+    "username": "vamsidhar",
+    "email": "vamsimuppagowni@gmail.com",
+    "password": "cc074caf3cc3c7b7c6019b4aed38e297e740ada152de6951e4b3655fff3df58f",
+    "role": "student",
+    "twoFactorSecret": "PFIEE6BQFBTVKW2RG47SGQ2UKVAGSYKPEVWTIJBDPBAWOWR2HFLA",
+    "createdAt": "2026-01-28T05:28:52.820Z"
+  },
+  {
+    "id": "be08eca7-77df-4b89-bf80-7740213df33b",
+    "username": "vamsi",
+    "email": "vamsimuppagowni@gmail.com",
+    "password": "cc074caf3cc3c7b7c6019b4aed38e297e740ada152de6951e4b3655fff3df58f",
+    "role": "student",
+    "twoFactorSecret": "JIZVKL2YJZQW6JCGIJWHW5ZGIBBF2YZDNROXGL23GV5SU4RINZEA",
+    "createdAt": "2026-01-28T08:04:52.826Z"
+  }
+]
